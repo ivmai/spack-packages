@@ -210,6 +210,14 @@ class Protobuf(CMakePackage):
         sha256="c061356db31cdce29c8cdd98a3a8219ef048ebc2318d0dec26c1f2c5e5dae29b",
     )
 
+    # Broken build on aarch64 due to __builtin_arm_crc32cd
+    # See https://github.com/protocolbuffers/protobuf/pull/23164
+    patch(
+        "https://github.com/protocolbuffers/protobuf/commit/cbe193ab7ef6f8979cc33a876073217b364f4118.patch?full_index=1",
+        when="@32 target=aarch64:",
+        sha256="7727723e904dd74f35122da87837b60fd53e0642f302d53f96b9dbc6f9ac6d05",
+    )
+
     def cmake_args(self):
         args = [
             self.define_from_variant("BUILD_SHARED_LIBS", "shared"),
